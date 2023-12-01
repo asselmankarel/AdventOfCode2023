@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.Metrics;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Utils;
 
 var lines = FileReader.ReadFile("input.txt");
@@ -20,7 +19,7 @@ sum = 0;
 foreach(var line in lines)
 {
   List<char> chars = new();
-  
+
   for(int i=0; i < line.Length; i++)
   {
     string subString = line[i..];
