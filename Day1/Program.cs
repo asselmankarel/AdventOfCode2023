@@ -32,15 +32,15 @@ foreach(var line in lines)
     else if (subString.StartsWith("seven")) chars.Add('7');
     else if (subString.StartsWith("eight")) chars.Add('8');
     else if (subString.StartsWith("nine")) chars.Add('9');
-    else if (subString.StartsWith("1")) chars.Add('1');
-    else if (subString.StartsWith("2")) chars.Add('2');
-    else if (subString.StartsWith("3")) chars.Add('3');
-    else if (subString.StartsWith("4")) chars.Add('4');
-    else if (subString.StartsWith("5")) chars.Add('5');
-    else if (subString.StartsWith("6")) chars.Add('6');
-    else if (subString.StartsWith("7")) chars.Add('7');
-    else if (subString.StartsWith("8")) chars.Add('8');
-    else if (subString.StartsWith("9")) chars.Add('9');
+    else if (subString.StartsWith('1')) chars.Add('1');
+    else if (subString.StartsWith('2')) chars.Add('2');
+    else if (subString.StartsWith('3')) chars.Add('3');
+    else if (subString.StartsWith('4')) chars.Add('4');
+    else if (subString.StartsWith('5')) chars.Add('5');
+    else if (subString.StartsWith('6')) chars.Add('6');
+    else if (subString.StartsWith('7')) chars.Add('7');
+    else if (subString.StartsWith('8')) chars.Add('8');
+    else if (subString.StartsWith('9')) chars.Add('9');
   }
   sum += int.Parse($"{chars[0]}{chars[^1]}");
 }
