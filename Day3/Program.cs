@@ -62,3 +62,49 @@ static List<int> GetLinesToCheck(int i, int numberOfLines)
 }
 
 Console.WriteLine($"Answer part 1 : {numbers.Sum()}");
+
+// part 2
+
+int sumOfGearRatios = 0;
+
+for(int l = 0; l < lines.Length; l++)
+{  
+  int[] starIndexes = Regex.Matches(lines[l], @"\*").Select(m => m.Index).ToArray();
+  foreach(int s in starIndexes)
+  {
+    List<int> AdjecentNumbers = new();
+  
+    // left
+    if(lines[l].Substring(s-1,1) != ".") 
+    {
+      var match = Regex.Match(lines[l].Substring(s-4, 4), @"[0-9]\d*");
+      if (match.Success  && match.ValueSpan.Length > 1) AdjecentNumbers.Add(int.Parse(match.ValueSpan));
+    }
+
+    // right
+    if (lines[l].Substring(s+1,1) != ".") {
+      var match = Regex.Match(lines[l].Substring(s, 4), @"[0-9]\d*");
+      if (match.Success  && match.ValueSpan.Length > 1) AdjecentNumbers.Add(int.Parse(match.ValueSpan));
+    }
+
+       
+    if (l > 0 && lines[l-1].Substring(s-1,1) != "." && lines[l-1].Substring(s+1,1) != ".")
+    {
+      var matchesPrevLine = Regex.Matches(lines[l-1].Substring(s-3, 7), @"[0-9]\d*");
+      foreach (var match in matchesPrevLine.Cast<Match>())
+        if (match.Success && match.ValueSpan.Length > 1) AdjecentNumbers.Add(int.Parse(match.ValueSpan));
+    }
+
+    if(l < lines.Length-1 && lines[l+1].Substring(s-1,1) != "." && lines[l+1].Substring(s+1,1) != ".")
+    {
+      var matchesNextLine = Regex.Matches(lines[l+1].Substring(s-3, 7), @"[0-9]\d*");
+      foreach (var match in matchesNextLine.Cast<Match>())
+        if (match.Success && match.ValueSpan.Length > 1) AdjecentNumbers.Add(int.Parse(match.ValueSpan));
+    }
+
+    if (AdjecentNumbers.Count == 2)
+      sumOfGearRatios += AdjecentNumbers[0] * AdjecentNumbers[1];
+  }
+}
+
+Console.WriteLine($"Answer part 2: {sumOfGearRatios}");
