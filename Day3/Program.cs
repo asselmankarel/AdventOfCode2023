@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Drawing;
+using System.Text.RegularExpressions;
 using Utils;
 
 var lines = FileReader.ReadFile("input.txt");
@@ -74,32 +75,49 @@ for(int l = 0; l < lines.Length; l++)
   {
     List<int> AdjecentNumbers = new();
   
-    // left
-    if(lines[l].Substring(s-1,1) != ".") 
+    var matches = Regex.Matches(lines[l], @"[0-9]\d*");
+    foreach(var match in matches.Cast<Match>())
     {
-      var match = Regex.Match(lines[l].Substring(s-4, 4), @"[0-9]\d*");
-      if (match.Success  && match.ValueSpan.Length > 1) AdjecentNumbers.Add(int.Parse(match.ValueSpan));
+      for(int i = 0; i < match.Length; i++)
+      {
+        if (match.Index + i == s || match.Index + i == s-1  || match.Index + i == s+1)
+        {
+          AdjecentNumbers.Add(int.Parse(match.ValueSpan));
+          break;
+        }
+      }
     }
-
-    // right
-    if (lines[l].Substring(s+1,1) != ".") {
-      var match = Regex.Match(lines[l].Substring(s, 4), @"[0-9]\d*");
-      if (match.Success  && match.ValueSpan.Length > 1) AdjecentNumbers.Add(int.Parse(match.ValueSpan));
-    }
-
        
-    if (l > 0 && lines[l-1].Substring(s-1,1) != "." && lines[l-1].Substring(s+1,1) != ".")
+    if (l > 0)
     {
-      var matchesPrevLine = Regex.Matches(lines[l-1].Substring(s-3, 7), @"[0-9]\d*");
-      foreach (var match in matchesPrevLine.Cast<Match>())
-        if (match.Success && match.ValueSpan.Length > 1) AdjecentNumbers.Add(int.Parse(match.ValueSpan));
+      var matchesPrevLine = Regex.Matches(lines[l-1], @"[0-9]\d*");
+      foreach(var match in matchesPrevLine.Cast<Match>())
+      {
+        for(int i = 0; i < match.Length; i++)
+        {
+          if (match.Index + i == s || match.Index + i == s-1  || match.Index + i == s+1)
+          {
+            AdjecentNumbers.Add(int.Parse(match.ValueSpan));
+            break;
+          }
+        }
+      }
     }
 
-    if(l < lines.Length-1 && lines[l+1].Substring(s-1,1) != "." && lines[l+1].Substring(s+1,1) != ".")
+    if(l < lines.Length-1 )
     {
-      var matchesNextLine = Regex.Matches(lines[l+1].Substring(s-3, 7), @"[0-9]\d*");
-      foreach (var match in matchesNextLine.Cast<Match>())
-        if (match.Success && match.ValueSpan.Length > 1) AdjecentNumbers.Add(int.Parse(match.ValueSpan));
+      var matchesNextLine = Regex.Matches(lines[l+1], @"[0-9]\d*");
+      foreach(var match in matchesNextLine.Cast<Match>())
+      {
+        for(int i = 0; i < match.Length; i++)
+        {
+          if (match.Index + i == s || match.Index + i == s-1  || match.Index + i == s+1)
+          {
+            AdjecentNumbers.Add(int.Parse(match.ValueSpan));
+            break;
+          }
+        }
+      }
     }
 
     if (AdjecentNumbers.Count == 2)
