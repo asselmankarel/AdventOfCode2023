@@ -74,55 +74,34 @@ for(int l = 0; l < lines.Length; l++)
   foreach(int s in starIndexes)
   {
     List<int> AdjecentNumbers = new();
-  
-    var matches = Regex.Matches(lines[l], @"[0-9]\d*");
-    foreach(var match in matches.Cast<Match>())
-    {
-      for(int i = 0; i < match.Length; i++)
-      {
-        if (match.Index + i == s || match.Index + i == s-1  || match.Index + i == s+1)
-        {
-          AdjecentNumbers.Add(int.Parse(match.ValueSpan));
-          break;
-        }
-      }
-    }
+    FindAdjecentNumbersInLine(s, lines[l], AdjecentNumbers);
        
-    if (l > 0)
-    {
-      var matchesPrevLine = Regex.Matches(lines[l-1], @"[0-9]\d*");
-      foreach(var match in matchesPrevLine.Cast<Match>())
-      {
-        for(int i = 0; i < match.Length; i++)
-        {
-          if (match.Index + i == s || match.Index + i == s-1  || match.Index + i == s+1)
-          {
-            AdjecentNumbers.Add(int.Parse(match.ValueSpan));
-            break;
-          }
-        }
-      }
-    }
+    if (l > 0)    
+      FindAdjecentNumbersInLine(s, lines[l-1], AdjecentNumbers);
 
     if(l < lines.Length-1 )
-    {
-      var matchesNextLine = Regex.Matches(lines[l+1], @"[0-9]\d*");
-      foreach(var match in matchesNextLine.Cast<Match>())
-      {
-        for(int i = 0; i < match.Length; i++)
-        {
-          if (match.Index + i == s || match.Index + i == s-1  || match.Index + i == s+1)
-          {
-            AdjecentNumbers.Add(int.Parse(match.ValueSpan));
-            break;
-          }
-        }
-      }
-    }
+      FindAdjecentNumbersInLine(s, lines[l+1], AdjecentNumbers);    
 
     if (AdjecentNumbers.Count == 2)
       sumOfGearRatios += AdjecentNumbers[0] * AdjecentNumbers[1];
   }
+}
+
+
+void FindAdjecentNumbersInLine(int starIndex, string line, List<int> adjecentNumbers)
+{
+   var matches = Regex.Matches(line, @"[0-9]\d*");
+    foreach(var match in matches.Cast<Match>())
+    {
+      for(int i = 0; i < match.Length; i++)
+      {
+        if (match.Index + i == starIndex || match.Index + i == starIndex-1  || match.Index + i == starIndex+1)
+        {
+          adjecentNumbers.Add(int.Parse(match.ValueSpan));
+          break;
+        }
+      }
+    }
 }
 
 Console.WriteLine($"Answer part 2: {sumOfGearRatios}");
