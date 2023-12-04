@@ -3,17 +3,18 @@ namespace Day4;
 public class Card 
 {
   public int Id { get; set; }
-  public int[] WinningNumbers { get; set; } = new int[5];
-  public int[] CardNumbers { get; set; } = new int[8];
+  public int[] WinningNumbers { get; set; } = new int[10];
+  public int[] CardNumbers { get; set; } = new int[25];
+  public int Matches { get; private set; }
 
   public int CalculateScore()
   {
-    int matches = -1;
+    Matches = 0;
     foreach(int n in WinningNumbers)
-      if (CardNumbers.Contains(n)) matches++;
+      if (CardNumbers.Contains(n)) Matches++;
 
-    if (matches == -1) return 0;
+    if (Matches == 0) return 0;
 
-    return (int)Math.Pow(2, matches);
+    return (int)Math.Pow(2, Matches -1);
   }
 }
